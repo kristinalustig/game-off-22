@@ -14,19 +14,21 @@ function C.new(w, h, x, y)
 
 end
 
-function C.updateTransform(tx, ty, dx, dy, bgx, bgy, bgw, bgh)
+function C.updateTransform(tx, ty, dx, dy, bgx, bgy, bgw, bgh, mx, my)
   
   if ((bgx + bgw + dx >= 800) and (bgx + dx <= 0)) then
     tx = tx + dx
     bgx = bgx + dx
+    mx = mx - bgx
   end
   
   if ((bgy + bgh + dy >= 600) and (bgy + dy <= 0)) then
     ty = ty + dy
     bgy = bgy + dy
+    my = my - bgy
   end
   
-  return bgx, bgy, tx, ty
+  return bgx, bgy, tx, ty, mx, my
 
 end
 

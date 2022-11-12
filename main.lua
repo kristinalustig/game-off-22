@@ -1,26 +1,13 @@
 local camera = require "camera"
-local push = require "push"
 local gs = require "gameState"
+local h = require "helpers"
 
 lg = love.graphics
 lk = love.keyboard
 
-local c, tx, ty, dtx, dty, speed, windowWidth, windowHeight
-local fullScreen, windowAdjustmentNotMadeYet
+local c, tx, ty, dtx, dty, speed, mouseX, mouseY
 
 function love.load()
-  
-  local gameWidth, gameHeight = 800, 600
-  local windowWidth, windowHeight = love.window.getDesktopDimensions()
-  if love.system.getOS() == "Web" then
-    windowWidth, windowHeight = 800, 600
-  end
-  
-  push:setupScreen(gameWidth, gameHeight, windowWidth, windowHeight, {
-      fullscreen = love.system.getOS() ~= "Web" or false,
-      resizable = false,
-      pixelperfect = true,
-      stretched = false})
   
   currentScene = nil
   
@@ -39,19 +26,14 @@ end
 function love.update(dt)
   
   checkMotion(speed)
+  
+  mouseX, mouseY = love.mouse.getPosition()
 
-  bg.x, bg.y, tx, ty = c.updateTransform(tx, ty, dtx, dty, bg.x, bg.y, bg.w, bg.h)
+  bg.x, bg.y, tx, ty, mouseX, mouseY = c.updateTransform(tx, ty, dtx, dty, bg.x, bg.y, bg.w, bg.h, mouseX, mouseY)
 
 end
 
 function love.draw()
-  if fullScreen == false and windowAdjustmentNotMadeYet then
-    windowWidth, windowHeight = 1200, 800
-    love.window.setMode(windowWidth, windowHeight)
-    windowAdjustmentNotMadeYet = false
-  end
-  
-  push:start()
   
   lg.translate(tx, ty)
   lg.scale(zoom)
@@ -59,7 +41,7 @@ function love.draw()
   lg.draw(bg.img)
   lg.draw(chest.img)
   
-  push:finish()
+  lg.printf("   ("..mouseX..", "..mouseY..")", mouseX, mouseY, 200)
 
 end
 
@@ -83,15 +65,11 @@ function checkMotion(speed)
   
 end
 
-function love.keyreleased(key, scancode)
+function love.mousepressed(x, y, button, istouch, presses)
   
-  if key == "x" or key == "escape" and love.system.getOS() ~= "Web" then
-    push:switchFullscreen()
-    if fullScreen == false then
-      fullScreen = true
-    else
-      fullScreen = false
-      windowAdjustmentNotMadeYet = true
-    end
+  if h.checkShapeOverlap(chest.shape, x, y) then
+    print("yes")
   end
+
 end
+
