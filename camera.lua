@@ -14,20 +14,19 @@ function C.new(w, h, x, y)
 
 end
 
-function C.update(translateX, translateY, deltaX, deltaY, bgXOrigin, bgYOrigin, bgWidth, bgHeight)
+function C.updateTransform(tx, ty, dx, dy, bgx, bgy, bgw, bgh)
   
-  --if the background's X origin + the width is less than the camera width, keep the translation the same
-  if ((bgXOrigin + bgWidth + deltaX >= 800) and (bgXOrigin + deltaX <= 0)) then
-    translateX = translateX + deltaX
-    bgXOrigin = bgXOrigin + deltaX
+  if ((bgx + bgw + dx >= 800) and (bgx + dx <= 0)) then
+    tx = tx + dx
+    bgx = bgx + dx
   end
   
-  if ((bgYOrigin + bgHeight + deltaY >= 600) and (bgYOrigin + deltaY <= 0)) then
-    translateY = translateY + deltaY
-    bgYOrigin = bgYOrigin + deltaY
+  if ((bgy + bgh + dy >= 600) and (bgy + dy <= 0)) then
+    ty = ty + dy
+    bgy = bgy + dy
   end
   
-  return bgXOrigin, bgYOrigin, translateX, translateY
+  return bgx, bgy, tx, ty
 
 end
 
