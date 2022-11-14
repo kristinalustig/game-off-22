@@ -14,7 +14,7 @@ function G.loadAssets()
 
   chest = {}
   chest.img = lg.newImage("/assets/level-one/chest-closed.png")
-  chest.shape = love.physics.newPolygonShape(765, 1739, 842, 1590, 1632, 1590, 1632, 1949, 1553, 2107, 765, 2107)
+  chest.shape = createIndicesArray(array.from(765, 1739, 842, 1590, 1632, 1590, 1632, 1949, 1553, 2107, 765, 2107))
   
   curtainsOpen = {}
   curtainsOpen.img = lg.newImage("/assets/level-one/curtains-open.png")
@@ -51,6 +51,20 @@ function G.loadAssets()
   
   --level select screen (stretch goal)
   
+end
+
+function createIndicesArray(indices)
+
+  local a = array.new()
+
+  for i=1, #indices do
+    if i % 2 ~= 0 then
+      array.pushback(a, {x = indices[i], y = indices[i+1]})
+    end
+  end
+  
+  return a
+
 end
 
 return G

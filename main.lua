@@ -1,11 +1,15 @@
 local camera = require "camera"
 local gs = require "gameState"
 local h = require "helpers"
+array = require "array"
 
 lg = love.graphics
 lk = love.keyboard
 
-local c, tx, ty, dtx, dty, speed, mouseX, mouseY
+tx = 0
+ty = 0
+
+local c, dtx, dty, speed, mouseX, mouseY
 
 function love.load()
   
@@ -69,6 +73,8 @@ function love.mousepressed(x, y, button, istouch, presses)
   
   if h.checkShapeOverlap(chest.shape, x, y) then
     print("yes")
+  else
+    print("no")
   end
 
 end
